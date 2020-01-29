@@ -2,7 +2,26 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 
-const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+const SCOPE_LIST = {
+    //See, edit, create, and delete all of your Google Drive files
+    contentCRUD: 'https://www.googleapis.com/auth/drive',
+    //View and manage its own configuration data in your Google Drive
+    manageAppData: 'https://www.googleapis.com/auth/drive.appdata',
+    //View and manage Google Drive files and folders that you have opened or created with this app
+    manageAppAccessedFiles: 'https://www.googleapis.com/auth/drive.file',
+    //View and manage metadata of files in your Google Drive
+    manageMetaData: 'https://www.googleapis.com/auth/drive.metadata',
+    //View metadata for files in your Google Drive
+    viewMetadata: 'https://www.googleapis.com/auth/drive.metadata.readonly',
+    //View the photos, videos and albums in your Google Photos
+    viewMedia: 'https://www.googleapis.com/auth/drive.photos.readonly',
+    //See and download all your Google Drive files
+    downloadContent: 'https://www.googleapis.com/auth/drive.readonly',
+    //Modify your Google Apps Script scripts' behavior
+    scriptMod: 'https://www.googleapis.com/auth/drive.scripts'
+}
+
+const SCOPES = [SCOPE_LIST.viewMetadata, SCOPE_LIST.downloadContent];
 const TOKEN_PATH = 'token.json';
 
 const CREDENTIALS_PATH = './credentials.json';
@@ -106,6 +125,7 @@ async function authSetup () {
 }
 
 async function main() {
+    console.log('GET LIST OF ALL SCOPES AT: https://developers.google.com/identity/protocols/googlescopes#drivev3');
     let authClient = await authSetup();
     return authClient;
 }
